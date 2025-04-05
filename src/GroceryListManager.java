@@ -1,53 +1,68 @@
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GroceryListManager {
-    // 1. Create the grocery list
-    private ArrayList<String> groceryList = new ArrayList<>();
+    // HashMap to store item and cost
+    private HashMap<String, Double> groceryList = new HashMap<>();
 
-    // 2. Add item to the list
-    public void addItem(String item) {
-        groceryList.add(item);
+    // Add item with cost
+    public void addItem(String item, double cost) {
+        groceryList.put(item, cost);
     }
 
-    // 3. Remove item from the list
+    // Remove item
     public void removeItem(String item) {
         groceryList.remove(item);
     }
 
-    // 4. Display the list
+    // Display all items with their cost
     public void displayList() {
         System.out.println("Grocery List:");
-        for (int i = 0; i < groceryList.size(); i++) {
-            System.out.println((i + 1) + ". " + groceryList.get(i));
+        int i = 1;
+        for (Map.Entry<String, Double> entry : groceryList.entrySet()) {
+            System.out.println(i + ". " + entry.getKey() + " - " + entry.getValue() + " €");
+            i++;
         }
     }
 
-    // 5. Check if item exists
+    // Check if item exists
     public boolean checkItem(String item) {
-        return groceryList.contains(item);
+        return groceryList.containsKey(item);
     }
 
-    // 6. Main method to test everything
+    // Calculate total cost
+    public double calculateTotalCost() {
+        double total = 0;
+        for (double cost : groceryList.values()) {
+            total += cost;
+        }
+        return total;
+    }
+
+    // Main method to test
     public static void main(String[] args) {
         GroceryListManager manager = new GroceryListManager();
 
-        // Add some items
-        manager.addItem("Apples");
-        manager.addItem("Milk");
-        manager.addItem("Bread");
+        // Add items
+        manager.addItem("Apples", 2.5);
+        manager.addItem("Milk", 1.2);
+        manager.addItem("Bread", 1.5);
 
-        // Display the list
+        // Display list
         manager.displayList();
 
-        // Check if "Milk" is in the list
-        System.out.println("\nIs \"Milk\" in the grocery list? " + manager.checkItem("Milk"));
+        // Check if Milk is in list
+        System.out.println("\nIs \"Milk\" in the list? " + manager.checkItem("Milk"));
 
-        // Remove "Milk"
-        System.out.println("\nRemoving \"Milk\" from the list...");
+        // Show total cost
+        System.out.println("\nTotal cost: " + manager.calculateTotalCost() + " €");
+
+        // Remove Milk
         manager.removeItem("Milk");
 
-        // Display the updated list
-        System.out.println("\nUpdated Grocery List:");
+        // Display updated list and cost
+        System.out.println("\nAfter removing Milk:");
         manager.displayList();
+        System.out.println("Updated total cost: " + manager.calculateTotalCost() + " €");
     }
 }
