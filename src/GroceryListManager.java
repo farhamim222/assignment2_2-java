@@ -1,68 +1,45 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class GroceryListManager {
-    // HashMap to store item and cost
-    private HashMap<String, Double> groceryList = new HashMap<>();
+    private ArrayList<GroceryItem> groceryList = new ArrayList<>();
 
-    // Add item with cost
-    public void addItem(String item, double cost) {
-        groceryList.put(item, cost);
+    // Add item with name, cost, and category
+    public void addItem(String name, double cost, String category) {
+        groceryList.add(new GroceryItem(name, cost, category));
     }
 
-    // Remove item
-    public void removeItem(String item) {
-        groceryList.remove(item);
-    }
-
-    // Display all items with their cost
+    // Display all items
     public void displayList() {
         System.out.println("Grocery List:");
         int i = 1;
-        for (Map.Entry<String, Double> entry : groceryList.entrySet()) {
-            System.out.println(i + ". " + entry.getKey() + " - " + entry.getValue() + " €");
+        for (GroceryItem item : groceryList) {
+            System.out.println(i + ". " + item);
             i++;
         }
     }
 
-    // Check if item exists
-    public boolean checkItem(String item) {
-        return groceryList.containsKey(item);
-    }
-
-    // Calculate total cost
-    public double calculateTotalCost() {
-        double total = 0;
-        for (double cost : groceryList.values()) {
-            total += cost;
+    // Display items by category
+    public void displayByCategory(String category) {
+        System.out.println("\nItems in category: " + category);
+        for (GroceryItem item : groceryList) {
+            if (item.getCategory().equalsIgnoreCase(category)) {
+                System.out.println("- " + item);
+            }
         }
-        return total;
     }
 
     // Main method to test
     public static void main(String[] args) {
         GroceryListManager manager = new GroceryListManager();
 
-        // Add items
-        manager.addItem("Apples", 2.5);
-        manager.addItem("Milk", 1.2);
-        manager.addItem("Bread", 1.5);
+        manager.addItem("Apples", 2.5, "Fruit");
+        manager.addItem("Milk", 1.2, "Dairy");
+        manager.addItem("Bread", 1.5, "Bakery");
+        manager.addItem("Banana", 1.1, "Fruit");
 
-        // Display list
         manager.displayList();
 
-        // Check if Milk is in list
-        System.out.println("\nIs \"Milk\" in the list? " + manager.checkItem("Milk"));
-
-        // Show total cost
-        System.out.println("\nTotal cost: " + manager.calculateTotalCost() + " €");
-
-        // Remove Milk
-        manager.removeItem("Milk");
-
-        // Display updated list and cost
-        System.out.println("\nAfter removing Milk:");
-        manager.displayList();
-        System.out.println("Updated total cost: " + manager.calculateTotalCost() + " €");
+        // Display only Fruit category
+        manager.displayByCategory("Fruit");
     }
 }
