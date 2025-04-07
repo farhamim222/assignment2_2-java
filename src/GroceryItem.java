@@ -31,6 +31,10 @@ public class GroceryItem {
         this.quantity = quantity;
     }
 
+    public double getTotalCost() {
+        return cost * quantity;
+    }
+
     @Override
     public String toString() {
         return name + " - " + cost + " € [" + category + "] Qty: " + quantity;
